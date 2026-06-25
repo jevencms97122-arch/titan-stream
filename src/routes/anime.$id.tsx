@@ -95,17 +95,29 @@ function AnimePage() {
 
         {currentEp && (
           <div className="glass mt-6 overflow-hidden rounded-3xl">
-            <div className="aspect-video w-full bg-black">
+            <div className="relative aspect-video w-full bg-black">
               <iframe
                 key={currentEp.id}
                 src={currentEp.embed_url}
-                className="h-full w-full"
+                className="absolute inset-0 h-full w-full"
                 allowFullScreen
-                allow="autoplay; fullscreen; encrypted-media"
+                allow="autoplay; fullscreen; encrypted-media; picture-in-picture"
+                referrerPolicy="no-referrer"
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-presentation"
               />
             </div>
-            <div className="p-4 text-sm font-medium">
-              {currentEp.title ?? `Épisode ${currentEp.number}`}
+            <div className="flex items-center justify-between p-4">
+              <div className="text-sm font-medium">
+                {currentEp.title ?? `Épisode ${currentEp.number}`}
+              </div>
+              <a
+                href={currentEp.embed_url}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xs text-muted-foreground underline hover:text-foreground"
+              >
+                Ouvrir dans un nouvel onglet
+              </a>
             </div>
           </div>
         )}
