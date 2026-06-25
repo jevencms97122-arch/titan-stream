@@ -14,16 +14,148 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      animes: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          poster_url: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          poster_url?: string | null
+          title: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          poster_url?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      episodes: {
+        Row: {
+          created_at: string
+          embed_url: string
+          id: string
+          number: number
+          season_id: string
+          title: string | null
+        }
+        Insert: {
+          created_at?: string
+          embed_url: string
+          id?: string
+          number: number
+          season_id: string
+          title?: string | null
+        }
+        Update: {
+          created_at?: string
+          embed_url?: string
+          id?: string
+          number?: number
+          season_id?: string
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "episodes_season_id_fkey"
+            columns: ["season_id"]
+            isOneToOne: false
+            referencedRelation: "seasons"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          id?: string
+        }
+        Relationships: []
+      }
+      seasons: {
+        Row: {
+          anime_id: string
+          created_at: string
+          id: string
+          language: string
+          number: number
+        }
+        Insert: {
+          anime_id: string
+          created_at?: string
+          id?: string
+          language?: string
+          number: number
+        }
+        Update: {
+          anime_id?: string
+          created_at?: string
+          id?: string
+          language?: string
+          number?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "seasons_anime_id_fkey"
+            columns: ["anime_id"]
+            isOneToOne: false
+            referencedRelation: "animes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "user"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +282,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "user"],
+    },
   },
 } as const
