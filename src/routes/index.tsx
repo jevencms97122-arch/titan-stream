@@ -6,6 +6,7 @@ import { useAuth } from "@/hooks/use-auth";
 import { Nav } from "@/components/Nav";
 import { Play, ChevronRight } from "lucide-react";
 
+// v2
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
